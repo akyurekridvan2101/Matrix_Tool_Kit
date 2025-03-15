@@ -34,7 +34,7 @@ long int** fill_matris(long int** matrix,int matrix_boyutu) {
     return matrix;
 }
 
-//Matriste işlem satırının ilk elemanı 0 olduğunda 0 olmayana kadar matristeki iki satırın yerini değiştirir
+/*//Matriste işlem satırının ilk elemanı 0 olduğunda 0 olmayana kadar matristeki iki satırın yerini değiştirir
 long int** satir_degistirme(long int** matrix,int matrix_boyutu,int bulunulan_satir,int degistirilecek_satir) {
 
     for (int i = 0; i < matrix_boyutu; i++) {
@@ -45,7 +45,7 @@ long int** satir_degistirme(long int** matrix,int matrix_boyutu,int bulunulan_sa
     }
 
     return matrix;
-}
+}*/
 
 void printMatrix(long int** matrix,int matrix_boyutu) {
     for (int i = 0; i < matrix_boyutu; i++) {

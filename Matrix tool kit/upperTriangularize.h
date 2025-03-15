@@ -1,27 +1,24 @@
+#ifndef upperTriangularize_H
+#define upperTriangularize_H
+
+
 #include "HEADER.h"
+#include "detDiv.h"
+#include "satirDegistirme.h"
+#include "satirDegistirme.h"
 
 long int** upperTriangularize(long int**matrix,int matrix_boyutu) {
 
+    long int* p_detDivCarpim = &detDivCarpim;
+
     for(int bulunulan_satir = 0 , bulunulan_sutun = 0 ; bulunulan_sutun < matrix_boyutu - 1 ;bulunulan_sutun++ , bulunulan_satir++) {//son sütunu gezmediği için 4 boyutlu ise 3 sütun gezer.
 
-        int kontrol;
-        if (matrix[bulunulan_satir][bulunulan_sutun] == 0) {
+        matrix = satirDegistirme(matrix,matrix_boyutu,bulunulan_satir);
 
-            for (int degistirilecek_satir = bulunulan_satir + 1; (degistirilecek_satir < matrix_boyutu); degistirilecek_satir++) {
+        sadelestirme(matrix,matrix_boyutu,bulunulan_satir);
 
-                if (matrix[degistirilecek_satir][bulunulan_sutun] != 0) {
-
-                    matrix = satir_degistirme(matrix,matrix_boyutu,bulunulan_satir,degistirilecek_satir);
-                    kontrol = 1;//kontrol sayesinde sütundaki herhangi bir değer sıfır değilse 1 olur ve alttaki kodlara geçer
-                    break;
-                }
-
-                kontrol = 0;//kontrol = 0 olursa break çalışmamış demektir ve o sütundaki tüm elemanlar zaten sıfırdır demektir ve yan sütuna geçeriz.  
-            }
-        }
-
-        if (kontrol == 0) {
-            continue;//alt satır ve yan sütuna geçeriz.
+        if (matrix[bulunulan_satir][bulunulan_satir] == 0) {
+            continue;//alt satır ve yan sütuna geçeriz.Çünkü bu tüm sütunun 0 olduğu anlamına gelir ve bu durumda da determinant = 0 olur çünkü köşegen üstünde en az 1 tane sıfır olmuş olur ve çarpma ve bölme sonucunu 0 yapar.
         }
 
         //satir_degistirme(matrix,matrix_boyutu,bulunulan_sutun); fonksiyonundan sonra yazmamızın neden satır değiştirme olabilme ihtimalidir.
@@ -51,6 +48,8 @@ long int** upperTriangularize(long int**matrix,int matrix_boyutu) {
                 carpim_r_2 = (ekoklari / r_2);
             }//zaten ikisinden birinin 0 olma ihtimalini yukarıda for dışındaki forda işledik...
 
+            *p_detDivCarpim *= carpim_r_2;
+
             for (int k = bulunulan_sutun; k < matrix_boyutu; k++) {
 
                 matrix[i][k] = carpim_r_1 * matrix[bulunulan_satir][k] + carpim_r_2 * matrix[i][k];//satır işlemleri yaparak sıfırlanır.
@@ -61,3 +60,5 @@ long int** upperTriangularize(long int**matrix,int matrix_boyutu) {
 
     return matrix;
 }
+
+#endif

@@ -3,6 +3,13 @@
 #include "upperTriangularize.h"
 #include "matrixOperations.h"
 #include "randomMatrixGenerator.h"
+#include "detDiv.h"
+#include "calcDet.h"
+#include "satirDegistirme.h"
+#include "sadelestirme.h"
+
+long int detDivCarpim = 1;//DETERMİNANT SAYACINA 1 VERDİK ÇÜNKÜ 1 BÖLMEDE ETKİSİZ ELEMANDIR.
+long int detDivBolum = 1;
 
 
 int main()
@@ -46,6 +53,7 @@ int main()
     printf("\x1b[32m\n");//Rengi yeşil yaptı
     printMatrix(matrix,matrix_boyutu);//İlk yazılan matrisin üst üçgen halini ekrana yazdırdı
     printf("\x1b[0m\n");//Rengi default değer yaptı
+    printf("\nDETERMINANT = %ld",calcDet(matrix,matrix_boyutu));
 
     freeMatrix(matrix,matrix_boyutu);//matrix ve baslangictaki_matrix değişkenlerinin tuttuğu belleği serbest bırakarak bellek sızıntılarının önüne geçiyoruz
     freeMatrix(baslangictaki_matrix,matrix_boyutu);

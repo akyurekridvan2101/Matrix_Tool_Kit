@@ -7,6 +7,8 @@
 #include "calcDet.h"
 #include "satirDegistirme.h"
 #include "sadelestirme.h"
+#include "matrixIzi.h"
+#include "transpoze.h"
 
 long int detDivCarpim = 1;//DETERMİNANT SAYACINA 1 VERDİK ÇÜNKÜ 1 BÖLMEDE ETKİSİZ ELEMANDIR.
 long int detDivBolum = 1;
@@ -48,12 +50,20 @@ int main()
 
     clearConsole();
 
-    printf("\x1b[31m\n");//Rengi kırmızı yaptı
+    printf("GIRILEN MATRIX\n");
     printMatrix(baslangictaki_matrix,matrix_boyutu);//İlk yazılan matrisi ekrana yazdırdı
-    printf("\x1b[32m\n");//Rengi yeşil yaptı
+    printf("\nUST UCGEN MATRIX\n");
     printMatrix(matrix,matrix_boyutu);//İlk yazılan matrisin üst üçgen halini ekrana yazdırdı
-    printf("\x1b[0m\n");//Rengi default değer yaptı
-    printf("\nDETERMINANT = %ld",calcDet(matrix,matrix_boyutu));
+    printf("\nDeterminant = %ld",calcDet(matrix,matrix_boyutu));
+
+    printf("\n\nMatrix izi = %ld\n\n",matrisIzi(baslangictaki_matrix,matrix_boyutu));
+    printf("Matrix elemanlar toplami = %ld\n\n",matrixElemanlarToplami(baslangictaki_matrix,matrix_boyutu));
+    printf("TRANSPOZ MATRIX\n");
+
+    long int** transpoz = transpoze(baslangictaki_matrix,matrix_boyutu);
+    printMatrix(transpoz , matrix_boyutu);    
+
+    freeMatrix(transpoz,matrix_boyutu);
 
     freeMatrix(matrix,matrix_boyutu);//matrix ve baslangictaki_matrix değişkenlerinin tuttuğu belleği serbest bırakarak bellek sızıntılarının önüne geçiyoruz
     freeMatrix(baslangictaki_matrix,matrix_boyutu);

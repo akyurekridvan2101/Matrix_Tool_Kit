@@ -17,6 +17,9 @@ long int calcDet(long int** matrix,int matrix_boyutu) {//en son upper triangular
     
     ilkDeterminant = (long int)((sonDeterminant * *p_detDivBolum) / (*p_detDivCarpim));
 
+    *p_detDivBolum = 1;//diğer işlemlerde de kullanılabildiği için değerleri sıfırladık ve diğerlerinde kullanılabilir hale getirdik.
+    *p_detDivCarpim = 1;
+
     return ilkDeterminant;
 }
 

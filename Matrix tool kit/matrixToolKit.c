@@ -9,6 +9,7 @@
 #include "sadelestirme.h"
 #include "matrixIzi.h"
 #include "transpoze.h"
+#include "solveUsingCramer.h"
 
 long int detDivCarpim = 1;//DETERMİNANT SAYACINA 1 VERDİK ÇÜNKÜ 1 BÖLMEDE ETKİSİZ ELEMANDIR.
 long int detDivBolum = 1;
@@ -48,13 +49,25 @@ int main()
     
     matrix = upperTriangularize(matrix,matrix_boyutu);//Üst üçgen matris haline getiriliyor
 
+    
+
     clearConsole();
 
     printf("GIRILEN MATRIX\n");
     printMatrix(baslangictaki_matrix,matrix_boyutu);//İlk yazılan matrisi ekrana yazdırdı
     printf("\nUST UCGEN MATRIX\n");
     printMatrix(matrix,matrix_boyutu);//İlk yazılan matrisin üst üçgen halini ekrana yazdırdı
-    printf("\nDeterminant = %ld",calcDet(matrix,matrix_boyutu));
+
+    long int detA = calcDet(matrix,matrix_boyutu);
+    printf("\nDeterminant = %ld",detA);
+    long int* determinantlar = (long int*)(malloc(sizeof(long int) * matrix_boyutu));
+    determinantlar = solveUsingCramer(baslangictaki_matrix , matrix_boyutu);
+
+    for (int i = 0; i < matrix_boyutu; i++) {
+
+        printf("\nX%d = %lf" , i+1 , (float)determinantlar[i] / detA);
+    }
+    
 
     printf("\n\nMatrix izi = %ld\n\n",matrisIzi(baslangictaki_matrix,matrix_boyutu));
     printf("Matrix elemanlar toplami = %ld\n\n",matrixElemanlarToplami(baslangictaki_matrix,matrix_boyutu));

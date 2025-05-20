@@ -1,37 +1,42 @@
-# Matris Tool Kit
+# Matrix Operations Program
 
-Bu proje, kare matrislerle ilgili çeşitli işlemleri gerçekleştirmek için bir matris araç takımını içerir. Bu araç kitini kullanarak, matrislerinizi üst üçgensel forma dönüştürebilir, matris elemanlarını elle girebilir veya belirli bir aralıktaki rastgele sayılarla doldurabilirsiniz.
+This program is a C program that performs various operations on square matrices. Below are the key features and usage instructions of the program.
 
-## Özellikler
+## Usage
 
-- Matris elemanlarını elle girebilme
-- Matrisi üst üçgensel forma dönüştürebilme
-- Belirli bir aralıktaki rastgele sayılarla matrisi doldurabilme
+1. **Getting Started:**
+   - The program prompts the user to enter the size of a square matrix (`matrix_size`).
 
-## Kullanım
+2. **Creating the Matrix:**
+   - The user is given the option to manually enter the matrix elements or fill them with random values within a specified range.
 
-1. Programı çalıştırın.
-2. Kare matrisin boyutunu girin.
-3. Elemanları kendiniz girmek mi, yoksa bir aralığa göre rastgele sayılar mı istediğinizi seçin.
-4. İlgili seçeneği seçtikten sonra işlemleri takip edin.
-5. İşlemler tamamlandığında, başlangıçtaki matris ve üst üçgensel formu ekranda görüntüleyin.
+3. **Upper Triangularization:**
+   - The `upperTriangularize` function transforms the input matrix into an upper triangular form.
 
-## Kod Yapısı
+4. **Printing Matrices to the Screen:**
+   - The `printMatrix` function prints the initial matrix and the upper triangular matrix to the screen.
 
-- `HEADER.h`: Proje başlık dosyası, matris işlemleri ve diğer yardımcı işlevlerini içerir.
-- `ebobEkok.h`: Öklid'in ebob bulma algoritması ve ekok hesaplayan fonksiyonları içerir.
-- `matrixOperations.h`: Matris işlemleri ve yardımcı fonksiyonları içerir.
-- `randomMatrixGenerator.h`: Belirli bir aralıktaki rastgele sayılarla matrisi dolduran fonksiyonu içerir.
-- `upperTriangularize.h`: Matrisi üst üçgensel forma dönüştüren fonksiyonu içerir.
+5. **Calculating Determinant:**
+   - The `calcDet` function calculates the determinant of the upper triangular matrix.
 
-## Nasıl Kullanılır
+6. **Solving Equations using Cramer's Method:**
+   - The `solveUsingCramer` function solves the equations using Cramer's method and prints the results to the screen.
 
-1. Projeyi bilgisayarınıza klonlayın veya ZIP olarak indirin.
-2. Projeyi bir C derleyici (GCC, Visual Studio Code, vb.) ile açın.
-3. Ana dosya olan `matrixToolKit.c` dosyasını çalıştırarak programı başlatın.
-4. Programın terminal çıktısını takip ederek matris işlemlerini gerçekleştirin.
-5. İlgili işlemleri tamamladığınızda, başlangıçtaki matrisi ve üst üçgensel formunu ekranda görüntüleyin.
+7. **Calculating Matrix Trace and Taking Transpose:**
+   - The program calculates the matrix trace and takes the transpose of the matrix, printing the results to the screen.
 
-## Gereksinimler
+8. **Memory Cleanup:**
+   - The program releases the used memory to prevent memory leaks.
 
-- C derleyici (GCC, Visual Studio Code, vb.)
+## Installation
+
+To use the project, you can follow the steps below:
+
+1. Clone the repository: `git clone https://github.com/akyurekridvan2101/Matrix-tool-kit.git`
+2. Navigate to the project directory: `cd MATRIX-TOOL-KIT/"Matrix tool kit"`
+3. Compile the program: `gcc matrixToolKit.c -o matrix_tool_kit`
+4. Run the program: `./matrix_tool_kit`
+
+## Contributing
+
+If you wish to contribute to this project, please review the [Contribution Guide](CONTRIBUTING.md) for details.

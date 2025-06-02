@@ -1,92 +1,97 @@
 #include "HEADER.h"
-#include "ebobEkok.h"
+#include "gcdLcm.h"
 #include "upperTriangularize.h"
 #include "matrixOperations.h"
 #include "randomMatrixGenerator.h"
-#include "detDiv.h"
-#include "calcDet.h"
-#include "satirDegistirme.h"
-#include "sadelestirme.h"
-#include "matrixIzi.h"
+#include "detDivProduct.h"
+#include "detCalc.h"
+#include "ExchangeRows.h"
+#include "matrixSimplification.h"
+#include "matrixTrace.h"
 #include "transpoze.h"
 #include "solveUsingCramer.h"
 
-long int detDivCarpim = 1;//DETERMİNANT SAYACINA 1 VERDİK ÇÜNKÜ 1 BÖLMEDE ETKİSİZ ELEMANDIR.
-long int detDivBolum = 1;
+// Global variables for determinant division
+long int determinantDivisionProduct = 1;
+long int determinantDivisionQuotient = 1;
 
+int main() {
+    int matrixSize;
 
-int main()
-{
-    int matrix_boyutu;
+    // Prompt for matrix size
+    printf("Enter the size of the square matrix: ");
+    scanf_s("%d", &matrixSize);
 
-    printf("Kare matrisin boyutunu giriniz : ");
-    scanf("%d",&matrix_boyutu);
+    // Allocate memory for matrices
+    long int** matrix = AllocateMatrix(matrixSize);
+    long int** initialMatrix = AllocateMatrix(matrixSize);
 
-    long int** matrix = allocateMatrix(matrix_boyutu);//Ana matrisimiz
-    long int** baslangictaki_matrix = allocateMatrix(matrix_boyutu);//ilk girilen matrisi kopyalayıp en son ekrana yazdıracağımız matrisimiz
+    // Prompt for user choice to fill or generate matrix
+    while (1) {
+        int choice;
+        printf("\n\nTo manually input matrix elements, press ---> 1\n"
+            "To generate matrix elements within a range, press ---> 2\n"
+            "and then press ENTER: ");
+        scanf_s("%d", &choice);
 
-    while (1)
-    {
-        int tercih;
-        printf("\n\nMatrisin elemanlarini kendiniz atamak istiyorsaniz ---> 1\n"
-        "Gireceginiz araliga gore sistem tarafindan atanmasini istiyorsaniz ---> 2\n"
-        "yazip ENTER tusuna basiniz : ");
-        scanf("%d",&tercih);
-
-        if (tercih == 1) {
-            matrix = fill_matris(matrix,matrix_boyutu);//Matrise eleman atanıyor
+        if (choice == 1) {
+            matrix = FillMatrix(matrix, matrixSize);
             break;
-        }else if (tercih == 2) {
-            matrix = randomMatrixGenerator(matrix,matrix_boyutu);
+        }
+        else if (choice == 2) {
+            matrix = RandomMatrixGenerator(matrix, matrixSize);
             break;
-        } else {
-            clearConsole();
-            printf("YANLIS TUSLAMA");
+        }
+        else {
+            ClearConsole();
+            printf("INVALID INPUT");
         }
     }
 
-    baslangictaki_matrix = matrixCopy(matrix,baslangictaki_matrix,matrix_boyutu);
-    
-    matrix = upperTriangularize(matrix,matrix_boyutu);//Üst üçgen matris haline getiriliyor
+    // Copy the initial matrix
+    initialMatrix = matrixCopy(matrix, initialMatrix, matrixSize);
 
-    
+    // Upper triangularize the matrix
+    matrix = UpperTriangularize(matrix, matrixSize);
 
-    clearConsole();
+    // Clear console
+    ClearConsole();
 
-    printf("GIRILEN MATRIX\n");
-    printMatrix(baslangictaki_matrix,matrix_boyutu);//İlk yazılan matrisi ekrana yazdırdı
-    printf("\nUST UCGEN MATRIX\n");
-    printMatrix(matrix,matrix_boyutu);//İlk yazılan matrisin üst üçgen halini ekrana yazdırdı
+    // Print original and upper triangular matrices
+    printf("ORIGINAL MATRIX\n");
+    printMatrix(initialMatrix, matrixSize);
+    printf("\nUPPER TRIANGULAR MATRIX\n");
+    printMatrix(matrix, matrixSize);
 
-    long int detA = calcDet(matrix,matrix_boyutu);
-    printf("\nDeterminant = %ld",detA);
-    long int* determinantlar = (long int*)(malloc(sizeof(long int) * matrix_boyutu));
-    determinantlar = solveUsingCramer(baslangictaki_matrix , matrix_boyutu);
+    // Calculate determinant and solutions using Cramer's Rule
+    long int detA = CalculateDeterminant(matrix, matrixSize);
+    printf("\nDeterminant = %ld", detA);
+    long int* determinants = (long int*)(malloc(sizeof(long int) * matrixSize));
+    determinants = SolveUsingCramer(initialMatrix, matrixSize);
 
-    for (int i = 0; i < matrix_boyutu; i++) {
-
-        printf("\nX%d = %lf" , i+1 , (float)determinantlar[i] / detA);
+    for (int i = 0; i < matrixSize; i++) {
+        printf("\nX%d = %lf", i + 1, (float)determinants[i] / detA);
     }
-    
 
-    printf("\n\nMatrix izi = %ld\n\n",matrisIzi(baslangictaki_matrix,matrix_boyutu));
-    printf("Matrix elemanlar toplami = %ld\n\n",matrixElemanlarToplami(baslangictaki_matrix,matrix_boyutu));
-    printf("TRANSPOZ MATRIX\n");
+    // Print matrix trace and sum of elements
+    printf("\n\nMatrix Trace = %ld\n\n", MatrixTrace(initialMatrix, matrixSize));
+    printf("Sum of Matrix Elements = %ld\n\n", MatrixElementSum(initialMatrix, matrixSize));
 
-    long int** transpoz = transpoze(baslangictaki_matrix,matrix_boyutu);
-    printMatrix(transpoz , matrix_boyutu);    
+    // Transpose the matrix and print
+    printf("TRANSPOSE MATRIX\n");
+    long int** transposeMatrix = Transpose(initialMatrix, matrixSize);
+    printMatrix(transposeMatrix, matrixSize);
 
-    freeMatrix(transpoz,matrix_boyutu);
-
-    freeMatrix(matrix,matrix_boyutu);//matrix ve baslangictaki_matrix değişkenlerinin tuttuğu belleği serbest bırakarak bellek sızıntılarının önüne geçiyoruz
-    freeMatrix(baslangictaki_matrix,matrix_boyutu);
+    // Free memory allocated for matrices
+    freeMatrix(transposeMatrix, matrixSize);
+    freeMatrix(matrix, matrixSize);
+    freeMatrix(initialMatrix, matrixSize);
 
     return 0;
 }
 
-
-
-void clearConsole() {
+// Function to clear console
+void ClearConsole() {
 #ifdef _WIN32
     system("cls");
 #else

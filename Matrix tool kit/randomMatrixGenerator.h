@@ -5,38 +5,40 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+// Function to generate a random matrix within a given range
+long int** RandomMatrixGenerator(long int** matrix, int matrixSize) {
+    long int minNumber, maxNumber;
 
-long int** randomMatrixGenerator(long int** matrix,int matrix_boyutu) {
+    ClearConsole();
 
-    long int minSayi, maxSayi;
-
-    clearConsole();
-
+    // Prompt for minimum and maximum numbers
     while (1) {
-        printf("Min sayiyi giriniz: ");
-        scanf("%ld", &minSayi);
+        printf("Enter the minimum number: ");
+        scanf_s("%ld", &minNumber);
 
-        printf("Max sayiyi giriniz: ");
-        scanf("%ld", &maxSayi);
+        printf("Enter the maximum number: ");
+        scanf_s("%ld", &maxNumber);
 
-        if (minSayi < maxSayi) {
-            break;  // Koşul sağlandığında döngüden çık
+        if (minNumber < maxNumber) {
+            break;  // Exit the loop if the condition is satisfied
         }
         else {
-            clearConsole();
-            printf("\nHatali giris! Min sayi, max sayidan kucuk olmalidir.\n\n");
+            ClearConsole();
+            printf("\nInvalid input! The minimum number should be less than the maximum number.\n\n");
         }
     }
 
+    // Seed the random number generator
     srand((unsigned int)time(NULL));
-    for (int i = 0; i < matrix_boyutu; i++) {
-        for (int j = 0; j < matrix_boyutu; j++) {
-            matrix[i][j] = rand() % (maxSayi - minSayi + 1) + minSayi;// Belirli aralıkta rastgele sayı üretme formülü
+
+    // Generate random numbers for each element in the matrix
+    for (int i = 0; i < matrixSize; i++) {
+        for (int j = 0; j < matrixSize; j++) {
+            matrix[i][j] = rand() % (maxNumber - minNumber + 1) + minNumber;
         }
     }
 
     return matrix;
-
 }
 
 #endif

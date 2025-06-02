@@ -1,82 +1,56 @@
-#ifndef matrixOperations_H
-#define matrixOperations_H
+#ifndef MATRIX_OPERATIONS_H
+#define MATRIX_OPERATIONS_H
 
 #include "HEADER.h"
 
-//Pointerlara malloc sayesinde bellek ataması yapar
-long int** allocateMatrix(int matrix_boyutu) {
-
-    long int** matrix = (long int**)malloc(sizeof(long int*) * matrix_boyutu);
-
-    for (int i = 0; i < matrix_boyutu; i++) {
-
-        matrix[i] = (long int*)(malloc(sizeof(long int) * matrix_boyutu));
+// Allocates memory for a matrix using malloc for pointers
+long int** AllocateMatrix(int matrixSize) {
+    long int** matrix = (long int**)malloc(sizeof(long int*) * matrixSize);
+    for (int i = 0; i < matrixSize; i++) {
+        matrix[i] = (long int*)(malloc(sizeof(long int) * matrixSize));
     }
-
     return matrix;
 }
 
-//Matrisin elemanlarına değer ataması yapar
-long int** fill_matris(long int** matrix,int matrix_boyutu) {
-
-    long int sayi;
-    
-    for (int i = 0; i < matrix_boyutu; i++) {
-
-        for (int j = 0; j < matrix_boyutu; j++) {
-
-            printf("\nmatris[%d][%d] : ",i+1,j+1);
-            scanf("%ld",&sayi);
-            matrix[i][j] = sayi;
+// Fills the elements of the matrix with user input
+long int** FillMatrix(long int** matrix, int matrixSize) {
+    long int number;
+    for (int i = 0; i < matrixSize; i++) {
+        for (int j = 0; j < matrixSize; j++) {
+            printf("\nmatris[%d][%d] : ", i + 1, j + 1);
+            scanf_s("%ld", &number);
+            matrix[i][j] = number;
         }
     }
-
     return matrix;
 }
 
-/*//Matriste işlem satırının ilk elemanı 0 olduğunda 0 olmayana kadar matristeki iki satırın yerini değiştirir
-long int** satir_degistirme(long int** matrix,int matrix_boyutu,int bulunulan_satir,int degistirilecek_satir) {
-
-    for (int i = 0; i < matrix_boyutu; i++) {
-
-        int temp = matrix[bulunulan_satir][i];
-        matrix[bulunulan_satir][i] = matrix[degistirilecek_satir][i];
-        matrix[degistirilecek_satir][i] = temp;
-    }
-
-    return matrix;
-}*/
-
-void printMatrix(long int** matrix,int matrix_boyutu) {
-    for (int i = 0; i < matrix_boyutu; i++) {
-
-        for (int j = 0; j < matrix_boyutu; j++) {
-            printf("%ld   ",matrix[i][j]);
+// Prints the matrix to the console
+void printMatrix(long int** matrix, int matrixSize) {
+    for (int i = 0; i < matrixSize; i++) {
+        for (int j = 0; j < matrixSize; j++) {
+            printf("%ld   ", matrix[i][j]);
         }
         printf("\n");
     }
 }
 
-void freeMatrix(long int** matrix, int matrix_boyutu) {
-    for (int i = 0; i < matrix_boyutu; i++) {
+// Frees the memory allocated for the matrix
+void freeMatrix(long int** matrix, int matrixSize) {
+    for (int i = 0; i < matrixSize; i++) {
         free(matrix[i]);
     }
     free(matrix);
 }
 
-/*matrix'ten baslangictaki_matrix'e kopyalama işlemi gerçekleştiriliyor.*/
-long int** matrixCopy(long int** kopyalanacak,long int** kopyalanilacak,int matrix_boyutu) {
-
-    for (int i = 0; i < matrix_boyutu; i++) {
-
-        for (int j = 0; j < matrix_boyutu; j++) {
-
-            kopyalanilacak[i][j] = kopyalanacak[i][j];
+// Copies the content of one matrix to another
+long int** matrixCopy(long int** sourceMatrix, long int** destinationMatrix, int matrixSize) {
+    for (int i = 0; i < matrixSize; i++) {
+        for (int j = 0; j < matrixSize; j++) {
+            destinationMatrix[i][j] = sourceMatrix[i][j];
         }
     }
-
-    return kopyalanilacak;
-
+    return destinationMatrix;
 }
 
 #endif

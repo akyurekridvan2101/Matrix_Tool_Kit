@@ -1,7 +1,0 @@
-{
-    "git.ignoreLimitWarning": true,
-    "files.associations": {
-        "satirdegistirme.h": "c",
-        "uppertriangularize.h": "c"
-    }
-}

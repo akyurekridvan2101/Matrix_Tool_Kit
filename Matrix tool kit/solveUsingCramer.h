@@ -7,47 +7,48 @@
 #include "upperTriangularize.h"
 #include "matrixOperations.h"
 
-long int* solveUsingCramer(long int** matrix,int matrix_boyutu) {
+// Function to solve a system of linear equations using Cramer's rule
+long int* SolveUsingCramer(long int** matrix, int matrixSize) {
+    // Allocate memory for determinants and solutions
+    long int* determinants = (long int*)(malloc(sizeof(long int) * matrixSize));
+    long int* solutions = (long int*)(malloc(sizeof(long int) * matrixSize));
+    long int** temporaryMatrix = AllocateMatrix(matrixSize);
 
-    long int* determinantlar = (long int*)(malloc(sizeof(long int) * matrix_boyutu));
-    long int* cevaplar = (long int*)(malloc(sizeof(long int) * matrix_boyutu));
-    long int** gecici_matrix = allocateMatrix(matrix_boyutu);
-
-    for (int i = 0; i < matrix_boyutu; i++) {
-
-        printf("\nMatrix'in %d. satirinin cevabi : '" , i+1);
-        scanf("%ld" , &cevaplar[i]);
+    // Get user input for solutions
+    for (int i = 0; i < matrixSize; i++) {
+        printf("\nEnter the solution for row %d: ", i + 1);
+        scanf_s("%ld", &solutions[i]);
     }
-    
-    printf("1 ");
-    gecici_matrix = matrixCopy(matrix , gecici_matrix , matrix_boyutu);
-    printf("2 ");
 
-    for (int i = 0; i < matrix_boyutu; i++) {
-        printf("i = %d  " , i);
+    // Create a copy of the original matrix
+    temporaryMatrix = matrixCopy(matrix, temporaryMatrix, matrixSize);
 
-        for (int j = 0; j < matrix_boyutu; j++) {
-            printf("j = %d  " , j);
-            
-            gecici_matrix[j][i] = cevaplar[j];
+    // Calculate determinants for each variable using Cramer's rule
+    for (int i = 0; i < matrixSize; i++) {
+        for (int j = 0; j < matrixSize; j++) {
+            temporaryMatrix[j][i] = solutions[j]; // Replace the column corresponding to the variable with the solutions
         }
 
-        gecici_matrix = upperTriangularize(gecici_matrix , matrix_boyutu);
-        determinantlar[i] = calcDet(gecici_matrix , matrix_boyutu);
+        // Upper triangularize the modified matrix
+        temporaryMatrix = UpperTriangularize(temporaryMatrix, matrixSize);
 
-        gecici_matrix = matrixCopy(matrix , gecici_matrix , matrix_boyutu);
-        
+        // Calculate determinant of the modified matrix
+        determinants[i] = CalculateDeterminant(temporaryMatrix, matrixSize);
+
+        // Reset the temporary matrix for the next iteration
+        temporaryMatrix = matrixCopy(matrix, temporaryMatrix, matrixSize);
     }
 
-    for (int i = 0; i < matrix_boyutu; i++) {
-        
-        free(gecici_matrix[i]);
+    // Free memory allocated for the temporary matrix
+    for (int i = 0; i < matrixSize; i++) {
+        free(temporaryMatrix[i]);
     }
+    free(temporaryMatrix);
 
-    free(gecici_matrix);
-    free(cevaplar);
-    
-    return determinantlar;
+    // Free memory allocated for solutions
+    free(solutions);
+
+    return determinants;
 }
 
 #endif

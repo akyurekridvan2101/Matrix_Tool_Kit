@@ -1,29 +1,26 @@
-#ifndef TRANSPOZE_H
-#define TRANSPOZE_H
+#ifndef TRANSPOSE_H
+#define TRANSPOSE_H
 
-#include "stdlib.h"
+#include <stdlib.h>
 
-long int** transpoze(long int** matrix,int matrix_boyutu) {
+// Function to transpose a matrix
+long int** Transpose(long int** matrix, int matrixSize) {
+    // Allocate memory for the transpose matrix
+    long int** transposeMatrix = (long int**)(malloc(matrixSize * sizeof(long int*)));
 
-    //long int** gecici_matrix = matrix;
-
-    long int** gecici_matrix = (long int**)(malloc(matrix_boyutu * sizeof(long int*)));
-
-    for (int i = 0; i < matrix_boyutu; i++) {
-        // Her satır için bellek tahsis et
-        gecici_matrix[i] = (long int*)malloc(matrix_boyutu * sizeof(long int));
+    // Allocate memory for each row of the transpose matrix
+    for (int i = 0; i < matrixSize; i++) {
+        transposeMatrix[i] = (long int*)malloc(matrixSize * sizeof(long int));
     }
 
-    for (int satir = 0; satir < matrix_boyutu; satir++) {
-
-        for (int sutun = 0; sutun < matrix_boyutu; sutun++) {
-
-            gecici_matrix[sutun][satir] = matrix[satir][sutun];            
+    // Perform the transpose operation
+    for (int row = 0; row < matrixSize; row++) {
+        for (int column = 0; column < matrixSize; column++) {
+            transposeMatrix[column][row] = matrix[row][column];
         }
     }
 
-    return gecici_matrix;
+    return transposeMatrix;
 }
-
 
 #endif
